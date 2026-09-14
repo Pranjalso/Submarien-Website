@@ -88,12 +88,12 @@ export default function SensingWhereItWorks() {
   };
 
   return (
-    <section id="where-it-works" className="relative w-full bg-[#181818] text-white pt-24 pb-16 sm:pt-32 sm:pb-24 lg:pt-36 lg:pb-28 border-b border-white/[0.08] overflow-hidden scroll-mt-20">
+    <section id="where-it-works" className="relative w-full bg-[#181818] text-white pt-16 pb-16 sm:pt-28 sm:pb-24 lg:pt-36 lg:pb-28 border-b border-white/[0.08] overflow-hidden scroll-mt-20">
       <div className="max-w-7xl mx-auto px-5 min-[400px]:px-6 sm:px-8 md:px-12 lg:px-16 mb-8 sm:mb-12 text-center sm:text-left">
-        {/* Monumental Section Title: Centered in the middle on small screens, left on larger */}
+        {/* Monumental Section Title */}
         <h2
           style={{ fontFamily: "forma-djr-display, sans-serif" }}
-          className="text-4xl min-[420px]:text-5xl sm:text-6xl md:text-7xl lg:text-[5.2rem] text-white font-normal tracking-[-0.03em] leading-none"
+          className="text-3xl min-[400px]:text-4xl sm:text-6xl md:text-7xl lg:text-[5.2rem] text-white font-normal tracking-[-0.03em] leading-none"
         >
           Where It Works
         </h2>

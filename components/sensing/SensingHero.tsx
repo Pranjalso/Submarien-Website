@@ -12,7 +12,7 @@ interface SensingHeroProps {
 
 export default function SensingHero({ onOpenInquiry }: SensingHeroProps) {
   return (
-    <section className="relative w-full min-h-screen flex flex-col justify-between bg-[#010712] text-white overflow-hidden border-b border-white/[0.08]">
+    <section className="relative w-full min-h-0 sm:min-h-[85vh] lg:min-h-[90vh] flex flex-col justify-start sm:justify-center bg-[#010712] text-white overflow-hidden border-b border-white/[0.08]">
       {/* 1. Deep Ocean Acoustic Sensing Image Background */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none">
         <Image
@@ -30,24 +30,22 @@ export default function SensingHero({ onOpenInquiry }: SensingHeroProps) {
       </div>
 
       {/* 2. Embedded Dynamic Navigation Bar */}
-      <div className="relative z-30 w-full">
-        <Navbar currentRoute="/sensing" onSelectCategory={onOpenInquiry} />
-      </div>
+      <Navbar currentRoute="/sensing" onSelectCategory={onOpenInquiry} />
 
-      {/* 3. Central Editorial Hero Copy */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 min-[400px]:px-6 sm:px-8 md:px-12 lg:px-16 pt-24 sm:pt-32 lg:pt-36 pb-14 sm:pb-20 flex flex-col justify-center flex-1">
+      {/* 3. Central Editorial Hero Copy (Minimal, Clean & Perfectly Spaced) */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 min-[400px]:px-6 sm:px-8 md:px-12 lg:px-16 pt-12 min-[400px]:pt-14 sm:pt-16 lg:pt-20 pb-12 sm:pb-16 lg:pb-24 flex flex-col justify-start sm:justify-center flex-1">
         <div className="max-w-4xl">
           {/* Monumental Headline */}
           <h1
             style={{ fontFamily: "forma-djr-display, sans-serif" }}
-            className="text-4xl min-[400px]:text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.25rem] text-white font-normal tracking-[-0.03em] leading-[1.04] mb-6 sm:mb-8"
+            className="text-3xl min-[380px]:text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.25rem] text-white font-normal tracking-[-0.03em] leading-[1.08] sm:leading-[1.02] mb-3.5 sm:mb-5 lg:mb-8"
           >
-            Sub-Surface Perception <br className="hidden sm:inline" />
+            Sub-Surface Perception <br />
             at Planetary Scale.
           </h1>
 
           {/* Editorial Prose */}
-          <p className="text-base sm:text-lg md:text-xl text-zinc-300 font-light leading-relaxed max-w-2xl mb-8 sm:mb-10">
+          <p className="text-xs min-[380px]:text-sm sm:text-base md:text-lg lg:text-xl text-zinc-300 font-light leading-relaxed max-w-2xl mb-6 sm:mb-8 lg:mb-10">
             Engineered for GPS-denied environments. Conformal passive listening arrays, millimeter-precision synthetic aperture sonar, and solid-state biogeochemical optodes operating down to 6,000 meters.
           </p>
 

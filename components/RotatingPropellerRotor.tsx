@@ -22,26 +22,31 @@ export default function RotatingPropellerRotor({ isHovered = false }: { isHovere
     <div
       className="w-full h-full relative flex items-center justify-center pointer-events-none"
       style={{
-        perspective: "650px",
+        perspective: "800px",
         transformStyle: "preserve-3d",
       }}
     >
-      {/* 1. Deep Ducted Tunnel Cavity Backing - Seamlessly conceals static photo blades */}
-      <div className="absolute inset-[1%] rounded-full bg-[#01040a] shadow-[inset_0_0_30px_rgba(0,0,0,0.99)] border border-white/[0.08]" />
+      {/* 1. Subtle ducted depth vignette (transparent, does NOT block photo details) */}
+      <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.15)_0%,rgba(0,0,0,0.45)_75%,transparent_100%)] pointer-events-none" />
 
-      {/* 2. Internal Stator Guide Vane Shadow */}
-      <div className="absolute inset-[5%] rounded-full border border-white/[0.06] pointer-events-none" />
-
-      {/* 3. True 3D Perspective Tilted Impeller Rotor Assembly */}
+      {/* 2. Fixed 3D Perspective Orientation Matching Nozzle Pitch & Yaw */}
       <div
-        className={`w-full h-full relative ${
-          isHovered ? "animate-propeller-spin-fast" : "animate-propeller-spin"
-        }`}
+        className="w-full h-full relative flex items-center justify-center"
         style={{
+          transform: "rotateY(-18deg) rotateX(-4deg)",
           transformStyle: "preserve-3d",
-          transform: "rotateY(-24deg) rotateX(-5deg)",
         }}
       >
+        {/* 3. True Continuous 360-degree High-Speed Spin Assembly */}
+        <div
+          className={`w-full h-full relative origin-center ${
+            isHovered ? "animate-propeller-spin-fast" : "animate-propeller-spin"
+          }`}
+          style={{
+            transformOrigin: "center center",
+            willChange: "transform",
+          }}
+        >
         <svg
           viewBox="0 0 200 200"
           className="w-full h-full filter drop-shadow-[0_0_15px_rgba(0,0,0,0.95)]"
@@ -120,6 +125,7 @@ export default function RotatingPropellerRotor({ isHovered = false }: { isHovere
           <circle cx="94" cy="94" r="7" fill="rgba(255,255,255,0.4)" />
           <circle cx="100" cy="100" r="14" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="0.8" />
         </svg>
+        </div>
       </div>
     </div>
   );

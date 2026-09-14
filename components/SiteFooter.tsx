@@ -332,10 +332,10 @@ export default function SiteFooter({ onOpenInquiry }: SiteFooterProps = {}) {
   return (
     <footer
       id="serve"
-      className="relative bg-black text-zinc-400 text-xs font-mono pt-10 sm:pt-14 lg:pt-16 pb-8 sm:pb-10 lg:pb-12 px-4 sm:px-8 lg:px-12 border-t border-white/[0.08] overflow-hidden scroll-mt-20 w-full max-w-[100vw]"
+      className="relative bg-black text-zinc-400 text-xs font-mono pt-10 sm:pt-14 lg:pt-16 pb-8 sm:pb-10 lg:pb-12 border-t border-white/[0.08] overflow-hidden scroll-mt-20 w-full max-w-[100vw]"
     >
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* 1. TOP SECTION: 5-COLUMN NAV LINKS + SOCIAL ICONS */}
+      {/* 1. TOP SECTION: 5-COLUMN NAV LINKS + SOCIAL ICONS */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 sm:gap-10 pb-6 sm:pb-10 border-b border-white/[0.08]">
           {/* 5 Categorical Link Columns */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-10 xl:gap-12 flex-grow">
@@ -409,27 +409,29 @@ export default function SiteFooter({ onOpenInquiry }: SiteFooterProps = {}) {
             </a>
           </div>
         </div>
+      </div>
 
-        {/* 2. MID-SECTION: BRAND WORDMARK + ACTIVE ROTATING PROPULSION */}
-        <div className="relative my-4 sm:my-8 py-2 sm:py-4 min-h-[160px] sm:min-h-[220px] lg:min-h-[260px] flex flex-col lg:flex-row items-center justify-between overflow-hidden">
-          {/* Full-Span Real-Time Cavitation Particle Canvas */}
-          <canvas
-            ref={canvasRef}
-            className="absolute inset-0 w-full h-full pointer-events-none z-30"
-          />
+      {/* 2. MID-SECTION: FULL-WIDTH CORNER PINNED SUBMARINE PROPULSION */}
+      <div className="relative w-full my-6 sm:my-10 py-8 sm:py-14 lg:py-16 min-h-[280px] sm:min-h-[380px] lg:min-h-[460px] flex flex-col lg:flex-row items-center justify-between overflow-hidden">
+        {/* Full-Span Real-Time Cavitation Particle Canvas */}
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full pointer-events-none z-30"
+        />
 
-          {/* Giant Wireframe Architectural Monogram Watermark */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none select-none z-0 opacity-25 hidden lg:block overflow-hidden">
-            <svg width="480" height="380" viewBox="0 0 400 320" fill="none" stroke="currentColor" className="text-white/[0.08]">
-              <rect x="70" y="40" width="80" height="150" rx="20" strokeWidth="2.5" transform="rotate(-38 110 115)" />
-              <rect x="70" y="160" width="80" height="150" rx="20" strokeWidth="2.5" transform="rotate(-38 110 235)" />
-              <rect x="180" y="40" width="80" height="150" rx="20" strokeWidth="2.5" transform="rotate(-38 220 115)" />
-              <rect x="180" y="160" width="80" height="150" rx="20" strokeWidth="2.5" transform="rotate(-38 220 235)" />
-            </svg>
-          </div>
+        {/* Giant Wireframe Architectural Monogram Watermark */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none select-none z-0 opacity-20 hidden lg:block overflow-hidden">
+          <svg width="480" height="380" viewBox="0 0 400 320" fill="none" stroke="currentColor" className="text-white/[0.08]">
+            <rect x="70" y="40" width="80" height="150" rx="20" strokeWidth="2.5" transform="rotate(-38 110 115)" />
+            <rect x="70" y="160" width="80" height="150" rx="20" strokeWidth="2.5" transform="rotate(-38 110 235)" />
+            <rect x="180" y="40" width="80" height="150" rx="20" strokeWidth="2.5" transform="rotate(-38 220 115)" />
+            <rect x="180" y="160" width="80" height="150" rx="20" strokeWidth="2.5" transform="rotate(-38 220 235)" />
+          </svg>
+        </div>
 
-          {/* Left: Brand Monogram Icon + Huge Wordmark */}
-          <div className="relative z-20 flex items-center gap-3 sm:gap-6 shrink-0 mb-3 lg:mb-0">
+        {/* Left: Brand Monogram Icon + Huge Wordmark (Aligned with max-7xl container) */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 w-full relative z-20 flex items-center justify-between pointer-events-none">
+          <div className="flex items-center gap-3 sm:gap-6 shrink-0 pointer-events-auto mb-6 lg:mb-0">
             <AethelMonogram className="w-9 h-9 sm:w-16 sm:h-16 lg:w-20 lg:h-20 text-white" />
             <span
               style={{ fontFamily: "forma-djr-display, sans-serif" }}
@@ -438,65 +440,61 @@ export default function SiteFooter({ onOpenInquiry }: SiteFooterProps = {}) {
               AETHEL
             </span>
           </div>
+        </div>
 
-          {/* Center & Right: Photorealistic 3D UUV Stern with Live Rotating Fans inside Ducted Shroud */}
-          <div className="relative w-full lg:w-[70%] h-[150px] min-[400px]:h-[180px] sm:h-[240px] lg:h-[280px] flex items-center justify-center lg:justify-end overflow-hidden">
-            <div
-              className="relative z-20 w-full max-w-[290px] min-[400px]:max-w-[340px] sm:max-w-[520px] lg:max-w-[680px] mr-0 lg:-mr-12 shrink-0 select-none cursor-pointer group"
-              onMouseEnter={() => setIsSubmarineHovered(true)}
-              onMouseLeave={() => setIsSubmarineHovered(false)}
-              onClick={() => {
-                onOpenInquiry?.("Flagship Architecture & Subsystems");
-              }}
-            >
-              {/* Live Tactical Propulsor Readout Badge on Hover */}
-              <div className="absolute -top-6 sm:-top-7 right-2 sm:right-8 text-[8px] sm:text-[9px] font-mono tracking-widest text-cyan-400 opacity-60 group-hover:opacity-100 transition-opacity flex items-center gap-1.5 sm:gap-2 pointer-events-none">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
-                <span>AFT PROPULSOR // {isSubmarineHovered ? "RPM 2,850 [MAX THRUST]" : "RPM 1,240 [PATROL]"}</span>
+        {/* Center & Right: Photorealistic 3D UUV Stern PINNED FLUSH TO RIGHT CORNER WITH ZERO GAP */}
+        <div className="relative lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full lg:w-auto flex items-center justify-end z-20 pointer-events-auto mt-4 lg:mt-0">
+          <div
+            className="relative w-full max-w-[340px] min-[400px]:max-w-[440px] sm:max-w-[600px] lg:max-w-[760px] xl:max-w-[880px] 2xl:max-w-[960px] translate-x-2 min-[400px]:translate-x-4 sm:translate-x-8 lg:translate-x-12 xl:translate-x-16 shrink-0 select-none cursor-pointer group"
+            onMouseEnter={() => setIsSubmarineHovered(true)}
+            onMouseLeave={() => setIsSubmarineHovered(false)}
+            onClick={() => {
+              onOpenInquiry?.("Flagship Architecture & Subsystems");
+            }}
+          >
+            <div className="relative transform scale-x-[-1] origin-center">
+              <Image
+                src="/images/uuv-stern.jpg"
+                alt="Aethel Autonomous Subsea Platform Ducted Propulsor"
+                width={1376}
+                height={768}
+                className="w-full h-auto object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.95)]"
+                priority
+              />
+
+              {/* Live Rotating Carbon-Fiber Propeller Fan inside Ducted Shroud */}
+              <div
+                className="absolute z-25 pointer-events-none"
+                style={{
+                  left: "70.8%",
+                  top: "51.2%",
+                  width: "19.8%",
+                  height: "39.4%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <RotatingPropellerRotor isHovered={isSubmarineHovered} />
               </div>
 
-              <div className="relative transform scale-x-[-1] origin-center">
-                <Image
-                  src="/images/uuv-stern.jpg"
-                  alt="Aethel Autonomous Subsea Platform Ducted Propulsor"
-                  width={800}
-                  height={450}
-                  className="w-full h-auto object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.9)]"
-                  priority
-                />
-
-                {/* Live Rotating Carbon-Fiber Impeller / Propeller Fan inside Ducted Shroud */}
-                <div
-                  className="absolute z-25 pointer-events-none"
-                  style={{
-                    left: "70.8%",
-                    top: "51.2%",
-                    width: "19.8%",
-                    height: "39.4%",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
-                  <RotatingPropellerRotor isHovered={isSubmarineHovered} />
-                </div>
-
-                {/* Sub-Pixel Anchor Point precisely at the Flipped Mouth Exit of the Nozzle */}
-                <div
-                  ref={nozzleMouthRef}
-                  className="absolute pointer-events-none"
-                  style={{
-                    left: "81.2%",
-                    top: "51.2%",
-                    width: "4px",
-                    height: "4px",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                />
-              </div>
+              {/* Sub-Pixel Anchor Point precisely at the Flipped Mouth Exit of the Nozzle for Cavitation Wake */}
+              <div
+                ref={nozzleMouthRef}
+                className="absolute pointer-events-none"
+                style={{
+                  left: "81.2%",
+                  top: "51.2%",
+                  width: "4px",
+                  height: "4px",
+                  transform: "translate(-50%, -50%)",
+                }}
+              />
             </div>
           </div>
         </div>
+      </div>
 
-        {/* 3. BOTTOM BAR: DEFENSE DISCLAIMER & COPYRIGHT */}
+      {/* 3. BOTTOM BAR: DEFENSE DISCLAIMER & COPYRIGHT */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10 mt-8 sm:mt-14">
         <div className="pt-8 border-t border-white/[0.06] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-[10px] sm:text-[11px] font-mono text-zinc-400">
           <p className="max-w-xl leading-relaxed">
             The appearance of U.S. Department of Defense (DoD) visual information does not imply or constitute DoD endorsement.
