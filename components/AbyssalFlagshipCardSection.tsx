@@ -12,38 +12,46 @@ interface AbyssalFlagshipCardSectionProps {
 export default function AbyssalFlagshipCardSection({ onRequestBrief }: AbyssalFlagshipCardSectionProps) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
+  const animFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const totalDistance = windowHeight + rect.height;
-      const currentDistance = windowHeight - rect.top;
-      const rawProgress = currentDistance / totalDistance;
-      const clamped = Math.min(Math.max(rawProgress, 0), 1);
-      setScrollProgress(clamped);
+      if (animFrameRef.current !== null) return;
+      animFrameRef.current = requestAnimationFrame(() => {
+        animFrameRef.current = null;
+        if (!sectionRef.current) return;
+        const rect = sectionRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const totalDistance = windowHeight + rect.height;
+        const currentDistance = windowHeight - rect.top;
+        const rawProgress = currentDistance / totalDistance;
+        const clamped = Math.min(Math.max(rawProgress, 0), 1);
+        setScrollProgress(clamped);
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (animFrameRef.current !== null) {
+        cancelAnimationFrame(animFrameRef.current);
+      }
+    };
   }, []);
 
   // Smooth scroll-driven card animation with graceful entrance
   const animT = Math.min(1, Math.max(0, scrollProgress / 0.45));
-  const cardOpacity = 0.5 + 0.5 * animT;
-  const cardTranslateY = ((1 - animT) * 18).toFixed(1);
-  const contentOpacity = 0.5 + 0.5 * animT;
-  const contentTranslateY = ((1 - animT) * 10).toFixed(1);
+  const cardOpacity = 0.85 + 0.15 * animT;
+  const cardTranslateY = ((1 - animT) * 16).toFixed(1);
+  const contentTranslateY = ((1 - animT) * 8).toFixed(1);
 
   return (
     <section
-      id="sensing"
+      id="flagship"
       ref={sectionRef}
       className="relative py-10 sm:py-14 lg:py-16 px-4 sm:px-8 lg:px-12 bg-[#020610] overflow-hidden flex flex-col items-center justify-center scroll-mt-20 border-b border-white/[0.08] w-full max-w-[100vw]"
     >
-      <span id="flagship" className="absolute top-0 pointer-events-none" />
 
       {/* Ambient Deep Ocean Volumetric Lighting */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
@@ -105,9 +113,8 @@ export default function AbyssalFlagshipCardSection({ onRequestBrief }: AbyssalFl
           <div
             className="space-y-3.5 sm:space-y-5"
             style={{
-              opacity: contentOpacity,
               transform: `translate3d(0, ${contentTranslateY}px, 0)`,
-              transition: "transform 0.25s ease-out, opacity 0.25s ease-out",
+              transition: "transform 0.25s ease-out",
             }}
           >
             {/* LINE 1: CATEGORY / DESIGNATION OVERLINE */}

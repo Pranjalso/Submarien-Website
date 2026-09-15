@@ -41,7 +41,7 @@ export default function Home() {
 
       {/* 4. MONUMENTAL ABYSSAL FLAGSHIP SUBMERSIBLE */}
       <AbyssalFlagshipCardSection
-        onRequestBrief={() => handleOpenInquiry("Sensing")}
+        onRequestBrief={() => handleOpenInquiry("Flagship Architecture & Subsystems")}
       />
 
       {/* 5. SUBSEA TELEMETRY 3-STATS TRANSITION BANNER */}

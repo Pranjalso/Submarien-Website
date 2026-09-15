@@ -83,28 +83,6 @@ export default function HeroSection({ onOpenInquiry }: HeroSectionProps) {
           </Button>
         </div>
       </div>
-
-      {/* Bottom Telemetry HUD Ribbon */}
-      <div className="relative z-10 border-t border-white/[0.08] bg-black/50 backdrop-blur-md px-4 sm:px-8 md:px-12 py-2.5 sm:py-4 w-full">
-        <div className="max-w-7xl mx-auto flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-3 text-[9.5px] sm:text-[11px] font-mono tracking-wider text-zinc-400">
-          <div className="flex items-center gap-4 sm:gap-6">
-            <span className="flex items-center gap-2 shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              STATUS: PATROL ACTIVE
-            </span>
-            <span className="hidden md:inline text-zinc-600">{"//"}</span>
-            <span className="hidden md:inline">DEPTH RATING: 6,000M HADAL</span>
-          </div>
-
-          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
-            <span className="flex items-center gap-2 text-zinc-400 uppercase text-[10px] sm:text-[11px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
-              <span className="hidden sm:inline">PROPULSION:</span>
-              <span>MAG-LEV RIM DRIVE</span>
-            </span>
-          </div>
-        </div>
-      </div>
     </section>
   );
 }

@@ -5,12 +5,14 @@ export const runtime = "nodejs";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+const EXPRESS_BACKEND_URL =
+  process.env.EXPRESS_BACKEND_URL || "http://localhost:5050";
+
 export async function POST(
   request: NextRequest
 ): Promise<NextResponse<ApiResponse<InquiryConfirmation>>> {
   try {
     const body: Partial<InquiryRequestBody> = await request.json();
-
     const { fullName, email, organization, category, missionScope } = body;
 
     // Field validations
@@ -47,34 +49,72 @@ export async function POST(
       );
     }
 
-    const selectedCategory = category || "Flagship Architecture & Subsystems";
-    const sanitizedScope = typeof missionScope === "string" ? missionScope.trim() : "";
-
-    // Generate deterministic inquiry reference
-    const randomSuffix = Math.random().toString(36).substring(2, 8).toUpperCase();
-    const inquiryId = `AETHEL-REQ-${Date.now().toString(36).toUpperCase()}-${randomSuffix}`;
-    const timestamp = new Date().toISOString();
-
-    // Log internally for audit in production environments
-    console.info(
-      `[AETHEL-INQUIRY-RECEIVED] ID=${inquiryId} Org="${organization.trim()}" Category="${selectedCategory}" ScopeLength=${sanitizedScope.length}`
-    );
-
-    const confirmation: InquiryConfirmation = {
-      inquiryId,
-      timestamp,
-      category: selectedCategory,
-      status: "RECEIVED",
+    const payload = {
+      fullName: fullName.trim(),
+      email: email.trim().toLowerCase(),
+      organization: organization.trim(),
+      category: category || "Flagship Architecture & Subsystems",
+      missionScope: typeof missionScope === "string" ? missionScope.trim() : "",
     };
 
-    return NextResponse.json(
-      {
-        success: true,
-        data: confirmation,
-        timestamp,
-      },
-      { status: 200 }
-    );
+    // Forward to Node.js / Express.js / PostgreSQL backend
+    try {
+      const expressRes = await fetch(`${EXPRESS_BACKEND_URL}/api/inquiries`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Forwarded-For": request.headers.get("x-forwarded-for") || "127.0.0.1",
+          "User-Agent": request.headers.get("user-agent") || "Submarine-Web/1.0",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (expressRes.ok) {
+        const expressData = await expressRes.json();
+        if (expressData.success && expressData.data) {
+          console.info(
+            `[AETHEL-POSTGRES-STORED] Inquiry persisted in PostgreSQL: Ref=${expressData.data.inquiryId}`
+          );
+
+          return NextResponse.json(
+            {
+              success: true,
+              data: {
+                inquiryId: expressData.data.inquiryId,
+                timestamp: expressData.data.timestamp,
+                category: expressData.data.category,
+                status: expressData.data.status || "RECEIVED",
+              },
+              timestamp: new Date().toISOString(),
+            },
+            { status: 201 }
+          );
+        }
+      }
+
+      const errJson = await expressRes.json().catch(() => ({}));
+      return NextResponse.json(
+        {
+          success: false,
+          error: errJson.error || "Backend transmission rejected inquiry.",
+          timestamp: new Date().toISOString(),
+        },
+        { status: expressRes.status || 400 }
+      );
+    } catch (backendErr) {
+      console.error(
+        `[AETHEL-BACKEND-OFFLINE] Express backend at ${EXPRESS_BACKEND_URL} unreachable:`,
+        backendErr
+      );
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Inquiry service is currently unreachable. Please try again shortly.",
+          timestamp: new Date().toISOString(),
+        },
+        { status: 503 }
+      );
+    }
   } catch (error) {
     console.error("[AETHEL-INQUIRY-ERROR]", error);
     return NextResponse.json(
@@ -88,7 +128,25 @@ export async function POST(
   }
 }
 
-export async function GET(): Promise<NextResponse<ApiResponse<{ status: string; version: string }>>> {
+export async function GET(): Promise<NextResponse<ApiResponse<{ status: string; database?: string; version: string }>>> {
+  try {
+    const healthRes = await fetch(`${EXPRESS_BACKEND_URL}/api/health`);
+    if (healthRes.ok) {
+      const healthData = await healthRes.json();
+      return NextResponse.json({
+        success: true,
+        data: {
+          status: "OPERATIONAL",
+          database: healthData.database || "CONNECTED",
+          version: "1.0.0",
+        },
+        timestamp: new Date().toISOString(),
+      });
+    }
+  } catch {
+    // ignore
+  }
+
   return NextResponse.json(
     {
       success: true,

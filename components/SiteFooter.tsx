@@ -509,6 +509,14 @@ export default function SiteFooter({ onOpenInquiry }: SiteFooterProps = {}) {
             <a href="#" className="hover:text-zinc-300 transition-colors cursor-pointer">
               Privacy Policy
             </a>
+            <span className="text-zinc-600">|</span>
+            <Link
+              href="/admin"
+              className="text-cyan-400/80 hover:text-cyan-300 transition-colors cursor-pointer flex items-center gap-1 font-semibold"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              Admiralty Portal
+            </Link>
           </div>
         </div>
       </div>
