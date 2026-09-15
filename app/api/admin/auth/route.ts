@@ -38,10 +38,25 @@ export async function POST(request: NextRequest) {
     const data = await backendRes.json().catch(() => ({}));
 
     if (!backendRes.ok || !data.success) {
+      let rawError = data.error;
+      let errorMsg = "Authentication failed. Invalid username or password.";
+
+      if (typeof rawError === "string") {
+        errorMsg = rawError;
+      } else if (rawError && typeof rawError === "object" && rawError.message) {
+        errorMsg = String(rawError.message);
+      } else if (typeof data.message === "string") {
+        errorMsg = data.message;
+      }
+
+      if (errorMsg.includes("Protected deployment")) {
+        errorMsg = "Backend is protected by Vercel Authentication. Please disable Deployment Protection in backend Vercel project settings.";
+      }
+
       return NextResponse.json(
         {
           success: false,
-          error: data.error || "Authentication failed.",
+          error: errorMsg,
           code: data.code || "AUTH_FAILED",
         },
         { status: backendRes.status || 401 }

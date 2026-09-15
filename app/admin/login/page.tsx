@@ -61,7 +61,15 @@ export default function AdminLoginPage() {
       if (res.ok && data.success) {
         router.replace("/admin/dashboard");
       } else {
-        setError(data.error || "Authentication failed. Invalid username or password.");
+        const errorMsg =
+          typeof data.error === "string"
+            ? data.error
+            : typeof data.error?.message === "string"
+            ? data.error.message
+            : typeof data.message === "string"
+            ? data.message
+            : "Authentication failed. Invalid username or password.";
+        setError(String(errorMsg));
       }
     } catch {
       setError("Unable to connect to security gateway. Verify backend service status.");
