@@ -5,8 +5,7 @@ export const runtime = "nodejs";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const EXPRESS_BACKEND_URL =
-  process.env.EXPRESS_BACKEND_URL || "http://localhost:5050";
+import { EXPRESS_BACKEND_URL } from "@/lib/auth-session";
 
 export async function POST(
   request: NextRequest

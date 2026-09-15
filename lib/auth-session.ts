@@ -3,8 +3,36 @@ import { NextRequest, NextResponse } from "next/server";
 export const ACCESS_COOKIE = "aethel_access_token";
 export const REFRESH_COOKIE = "aethel_refresh_token";
 
-export const EXPRESS_BACKEND_URL =
-  process.env.EXPRESS_BACKEND_URL || "http://localhost:5050";
+export function getBackendUrl(): string {
+  let url = (process.env.EXPRESS_BACKEND_URL || "").trim().replace(/\/+$/, "");
+
+  // If not configured, default to production domain in production, localhost in development
+  if (!url) {
+    return process.env.NODE_ENV === "production"
+      ? "https://submarien-backend-9zig.vercel.app"
+      : "http://localhost:5050";
+  }
+
+  // If a Vercel preview deployment URL with a hash was provided
+  // (e.g. submarien-backend-9zig-3kz6vkyqw.vercel.app), strip the preview hash
+  // so it targets the public production domain to avoid Vercel SSO protection
+  try {
+    const parsed = new URL(url);
+    if (
+      parsed.hostname.includes("submarien-backend") &&
+      parsed.hostname.endsWith(".vercel.app")
+    ) {
+      parsed.hostname = "submarien-backend-9zig.vercel.app";
+      return parsed.origin;
+    }
+  } catch {
+    // Keep URL as-is if parsing fails
+  }
+
+  return url;
+}
+
+export const EXPRESS_BACKEND_URL = getBackendUrl();
 
 export interface SessionTokens {
   accessToken: string;
